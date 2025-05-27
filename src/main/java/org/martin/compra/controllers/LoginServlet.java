@@ -1,17 +1,13 @@
-package controllers;
+package org.martin.compra.controllers;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import services.LoginService;
-import services.LoginServiceImplement;
+import jakarta.servlet.http.*;
+import org.martin.compra.services.LoginService;
+import org.martin.compra.services.LoginServiceImplement;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Arrays;
 import java.util.Optional;
 
 // Definición del Servlet que manejará las rutas /login y /login.html
@@ -35,12 +31,14 @@ public class LoginServlet extends HttpServlet {
                 .map(Cookie::getValue)  // Obtener solo el valor de la cookie
                 .findAny();  // Tomar la primera coincidencia*/
 
-        // Creamos el nuevo objeto de la cookie
+       //Implementamos el objetivo de tipo sesion
         LoginService auth= new LoginServiceImplement();
-        Optional<String> cookieOptional = auth.getUserName(req);
+        //Creamos una variable opcional
+        //Para obtener el nombre del usuario
+        Optional<String>usernameOptional = auth.getUserName(req);
 
         // Si existe la cookie (usuario ya autenticado)
-        if (cookieOptional.isPresent()) {
+        if (usernameOptional.isPresent()) {
             // Configurar tipo de contenido de la respuesta
             resp.setContentType("text/html;charset=UTF-8");
 
@@ -51,11 +49,11 @@ public class LoginServlet extends HttpServlet {
                 out.println("<html>");
                 out.println("<head>");
                 out.println("<meta charset=\"utf-8\">");  // Especificar encoding
-                out.println("<title>Bienvenido</title>");  // Título de la pestaña
+                out.println("<title>Hola"+ usernameOptional+"</title>");  // Título de la pestaña
                 out.println("</head>");
                 out.println("<body>");
                 // Mostrar mensaje personalizado con el nombre de usuario
-                out.println("<h1>Hola "+ cookieOptional.get()+" ya iniciaste sesión anteriormente!</h1>");
+                out.println("<h1>Hola "+ usernameOptional.get()+" ya iniciaste sesión anteriormente!</h1>");
                 // Enlace para volver al inicio
                 out.println("<p><a href='index.html'>Volver al inicio</a></p>");
                 out.println("</body>");
@@ -78,27 +76,11 @@ public class LoginServlet extends HttpServlet {
 
         // Validar credenciales
         if (username.equals(USERNAME) && password.equals(PASSWORD)) {
-            // Si son válidas, crear cookie de autenticación
-            Cookie usernameCookie = new Cookie("username", username);
-            // Añadir cookie a la respuesta
-            resp.addCookie(usernameCookie);
 
-            // Configurar tipo de contenido
-            resp.setContentType("text/html;charset=UTF-8");
-
-            // Generar página de bienvenida
-            try (PrintWriter out = resp.getWriter()) {
-                out.print("<!DOCTYPE html>");
-                out.println("<html>");
-                out.println("<head>");
-                out.println("<meta charset=\"utf-8\">");
-                out.println("<title>Bienvenido a la app</title>");
-                out.println("</head>");
-                out.println("<body>");
-                out.println("<h1>Bienvenido a mi APP</h1>");
-                out.println("</body>");
-                out.println("</html>");
-            }
+            //Creamos la sesión
+            HttpSession session = req.getSession();
+            //Seteo los valores de la sesion
+            session.setAttribute("username", username);
 
             // Redirigir a la página de login (mostrará mensaje de bienvenida)
             resp.sendRedirect("login.html");

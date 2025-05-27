@@ -1,6 +1,6 @@
-package services;
+package org.martin.compra.services;
 
-import models.Productos;
+import org.martin.compra.models.Productos;
 import java.util.List;
 
 public interface ProductoService {

@@ -1,13 +1,13 @@
-package controllers;
+package org.martin.compra.controllers;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import models.Productos;
-import services.ProductoService;
-import services.ProductoServiceImplement;
+import org.martin.compra.models.Productos;
+import org.martin.compra.services.ProductoService;
+import org.martin.compra.services.ProductoServiceImplement;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;

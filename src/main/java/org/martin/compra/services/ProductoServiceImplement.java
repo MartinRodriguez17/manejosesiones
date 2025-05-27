@@ -1,11 +1,11 @@
-package services;
+package org.martin.compra.services;
 
-import models.Productos;
-import java.util.ArrayList;
+import org.martin.compra.models.Productos;
+
 import java.util.Arrays;
 import java.util.List;
 // Implementación de la interfaz ProductoService
-public class ProductoServiceImplement implements services.ProductoService {
+public class ProductoServiceImplement implements ProductoService {
 
     @Override
     public List<Productos> listar() {

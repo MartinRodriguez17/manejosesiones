@@ -1,4 +1,4 @@
-package services;
+package org.martin.compra.services;
 
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
